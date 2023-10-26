@@ -1,5 +1,3 @@
-USE DroneCompany
-  
 -- Customers Table
 CREATE TABLE Customers (
     ID INT AUTO_INCREMENT PRIMARY KEY,
@@ -7,6 +5,18 @@ CREATE TABLE Customers (
     PositionX DECIMAL(10, 6) NOT NULL,
     PositionY DECIMAL(10, 6) NOT NULL,
     PositionZ DECIMAL(10, 6) NOT NULL
+);
+
+-- Drones Table
+CREATE TABLE Drones (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    PositionX DECIMAL(10, 6) NOT NULL,
+    PositionY DECIMAL(10, 6) NOT NULL,
+    PositionZ DECIMAL(10, 6) NOT NULL,
+    Status VARCHAR(255) NOT NULL,
+    BatteryStatus DECIMAL(5, 2) NOT NULL,
+    OrderID INT,
+    FOREIGN KEY (OrderID) REFERENCES Orders(ID)
 );
 
 -- Orders Table
@@ -23,16 +33,4 @@ CREATE TABLE Orders (
     DroneID INT,
     FOREIGN KEY (CustomerID) REFERENCES Customers(ID),
     FOREIGN KEY (DroneID) REFERENCES Drones(ID)
-);
-
--- Drones Table
-CREATE TABLE Drones (
-    ID INT AUTO_INCREMENT PRIMARY KEY,
-    PositionX DECIMAL(10, 6) NOT NULL,
-    PositionY DECIMAL(10, 6) NOT NULL,
-    PositionZ DECIMAL(10, 6) NOT NULL,
-    Status VARCHAR(255) NOT NULL,
-    BatteryStatus DECIMAL(5, 2) NOT NULL,
-    OrderID INT,
-    FOREIGN KEY (OrderID) REFERENCES Orders(ID)
 );
