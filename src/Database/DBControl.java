@@ -51,6 +51,7 @@ public class DBControl {
                 return entry.getValue();
             }
         }
+        System.out.println("no free drone with enough load requirement");
         return null;
     }
     
