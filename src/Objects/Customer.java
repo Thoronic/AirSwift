@@ -27,7 +27,7 @@ public class Customer{
         this.pos.movePosition(deltaX, deltaY, deltaZ);
     }
 
-    public Position gePosition(){
+    public Position getPosition(){
         return this.pos;
     }
 

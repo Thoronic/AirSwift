@@ -14,7 +14,7 @@ public class Order {
     public Order(Position startPos, Customer customer, double weight){
         this.id = UUID.randomUUID();
         this.startPos = startPos;
-        this.endPos = customer.gePosition();
+        this.endPos = customer.getPosition();
         this.weight = weight;
     }
 
@@ -28,5 +28,9 @@ public class Order {
 
     public UUID getID(){
         return this.id;
+    }
+
+    public double getWeight(){
+        return this.weight;
     }
 }
