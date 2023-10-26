@@ -31,10 +31,4 @@ public class Customer{
         return this.pos;
     }
 
-    public void printCustomer(){
-        System.out.println("Name: " + name);
-        System.out.println("ID: " + id);
-        System.out.println("Current Position: "+ this.pos.toString());
-        //System.out.println("Current Position: (" + pos.getX() + "," + pos.getY() + "," + pos.getZ() + ")");
-    }
 }

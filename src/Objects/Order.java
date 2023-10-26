@@ -33,4 +33,13 @@ public class Order {
     public double getWeight(){
         return this.weight;
     }
+
+    public void assignDrone(Drone drone){
+        this.assignedDrone = drone;
+    }
+
+    public void completeOrder(){
+        this.assignedDrone = null;
+    }
+
 }
