@@ -1,6 +1,7 @@
 package Objects;
 
 import Common.Position;
+import Database.DBControl;
 
 import java.util.UUID;
 
@@ -13,6 +14,7 @@ public class Customer{
         this.name = name;
         this.id = UUID.randomUUID();
         this.pos = pos;
+        DBControl.registerObjectToDB(this);
     }
 
     public UUID getID(){

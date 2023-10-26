@@ -3,10 +3,12 @@ package Objects;
 import java.util.UUID;
 
 import Common.Position;
+import Common.Status;
+import Database.DBControl;
 
 public class Drone {
     private UUID id;
-    private String status = "Available";
+    private Status status = Status.AVAILABLE;
     private double maxLoad;
     private double speed = 10.0;
     private double batteryStatus = 1.0;
@@ -18,13 +20,18 @@ public class Drone {
         this.id = UUID.randomUUID();
         this.currentPosition = pos;
         this.maxLoad = maxLoad;
+        DBControl.registerObjectToDB(this);
     }
 
     public double getSpeed(){
         return this.speed;
     }
 
-    public String getStatus(){
+    public double getMaxLoad(){
+        return this.maxLoad;
+    }
+
+    public Status getStatus(){
         return this.status;
     }
 
@@ -48,13 +55,13 @@ public class Drone {
         return this.id;
     }
 
-    public int useBattery(double usage){
+    public boolean useBattery(double usage){
         if (usage >= this.batteryStatus) {
-            this.status = "Empty";
-            return 0; //Not successful
+            this.status = Status.EMPTY;
+            return false; //Not successful
         } else {
             this.batteryStatus -= usage;
-            return 0;
+            return true;
         }
     }
 
@@ -62,14 +69,15 @@ public class Drone {
         this.batteryStatus = 1.0;
     }
 
-    public int assingOrder(Order order){
-        if (order.getWeight() > this.maxLoad || this.status != "Available" ){
+    public boolean assingOrder(Order order){
+        if (order.getWeight() > this.maxLoad || this.status != Status.AVAILABLE ){
             System.out.println("Can't assign order to this drone");
-            return 0; // This means operation was not done successfully
+            return false; // This means operation was not done successfully
         } else {
             this.currentOrder = order;
-            this.status = "Busy";
-            return 1; //This means success
+            this.status = Status.BUSY;
+            order.assignDrone(this);
+            return true; //This means success
         }
     }
 
@@ -78,23 +86,23 @@ public class Drone {
     }
 
     public void deactivateDrone(String reason){
-        if (this.status == "Busy"){
+        if (this.status == Status.BUSY){
             System.out.println("Trying to cancel an active drone");
         }
-        this.status = "Deactivated";
+        this.status = Status.DEACTIVATED;
         this.accident = reason;
         this.currentOrder = null;
         this.currentPosition = null;
     }
 
     public void orderCompleted(){
-        if (this.status == "Deactivated") {
+        if (this.status == Status.DEACTIVATED) {
             return;
         }
         if (this.batteryStatus <= 0){
-            this.status = "Empty";
+            this.status = Status.EMPTY;
         } else {
-            this.status = "Available";
+            this.status = Status.AVAILABLE;
         }
         this.currentOrder = null;
     }
