@@ -13,7 +13,7 @@ public class OrderDB {
     private OrderDB(){}
     static Connection connection = DatabaseConnection.getConnection();
 
-    public static void addOrder(Position startPos, int customerID, double weight) {
+    public static int addOrder(Position startPos, int customerID, double weight) {
         Position customerPos = CustomerDB.getCustomerPos(customerID);
         String insertSql = "INSERT INTO Orders (Status, StartPosX, StartPosY, StartPosZ, EndPosX, EndPosY, EndPosZ, Weight, CustomerID, DroneID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NULL)";
 
@@ -27,10 +27,17 @@ public class OrderDB {
             preparedStatement.setDouble(7, customerPos.getZ());
             preparedStatement.setDouble(8, weight);
             preparedStatement.setInt(9, customerID);
-            preparedStatement.executeUpdate();
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+                if (generatedKeys.next()){
+                    return generatedKeys.getInt(1);
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return -1;
     }
 
     public static void assignOrdertoDrone(int orderID, int droneID){
@@ -122,5 +129,17 @@ public class OrderDB {
         }
     }
 
-    //TODO get weight
+    public static double getOrderWeight(int orderID){
+        String sql = "SELECT * FROM Orders WHERE ID = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.setInt(1, orderID);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            return resultSet.getDouble("Weight");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Double.NEGATIVE_INFINITY;
+    }
 }
