@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import Common.Position;
 import Common.Status;
-import Database.DBControl;
 
 public class Drone {
     private UUID id;
@@ -20,7 +19,6 @@ public class Drone {
         this.id = UUID.randomUUID();
         this.currentPosition = pos;
         this.maxLoad = maxLoad;
-        DBControl.registerObjectToDB(this);
     }
 
     public double getSpeed(){

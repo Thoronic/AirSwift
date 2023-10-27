@@ -3,7 +3,6 @@ package Objects;
 import java.util.UUID;
 
 import Common.Position;
-import Database.DBControl;
 
 public class Order {
     private UUID id;
@@ -17,7 +16,6 @@ public class Order {
         this.startPos = startPos;
         this.endPos = customer.getPosition();
         this.weight = weight;
-        DBControl.registerObjectToDB(this);
     }
 
     public Position getStartPos(){
