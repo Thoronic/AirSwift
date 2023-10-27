@@ -7,11 +7,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class Customer{
-    private Customer(){}
+public class CustomerDB{
+    private CustomerDB(){}
+    static Connection connection = DatabaseConnection.getConnection();
 
     public static void addCustomer(String name, String handle, Position pos) {
-        Connection connection = DatabaseConnection.getConnection();
         String insertSql = "INSERT INTO Customers (Name, PositionX, PositionY, PositionZ) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(insertSql)) {
@@ -23,14 +23,6 @@ public class Customer{
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
     }
 

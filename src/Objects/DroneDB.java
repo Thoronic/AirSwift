@@ -2,18 +2,20 @@ package Objects;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import Common.Position;
 import Common.Status;
 import Database.DatabaseConnection;
 
-public class Drone {
+public class DroneDB {
+    static Connection connection = DatabaseConnection.getConnection();
 
-    private Drone(){}
+    private DroneDB(){}
 
     public static void addDrone(Position pos, double maxLoad, double speed) {
-        Connection connection = DatabaseConnection.getConnection();
+        
         String insertSql = "INSERT INTO Customers (PositionX, PositionY, PositionZ, Status, MaxLoad, Speed, Battery, OrderID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL)";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(insertSql)) {
@@ -27,15 +29,32 @@ public class Drone {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
+    }
+
+    public static int getFreeDrone(double weight, Position pos){
+        String sql = "SELECT * FROM Drones WHERE Status = ? AND MaxLoad >= ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.setString(1, Status.AVAILABLE.toString());
+            preparedStatement.setDouble(2, weight);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            int bestDrone = -1;
+            double bestDist = Double.POSITIVE_INFINITY;
+            
+            while (resultSet.next()){
+                Position dronePos = new Position(resultSet.getDouble("PositionX"), resultSet.getDouble("PositionY"), resultSet.getDouble("PositionZ"));
+                if (dronePos.getDistance(pos) <= bestDist){
+                    bestDist = dronePos.getDistance(pos);
+                    bestDrone = resultSet.getInt("ID");
+                }
+            }
+            return bestDrone;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
     /*public double getSpeed(){

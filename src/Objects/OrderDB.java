@@ -8,11 +8,11 @@ import Common.Position;
 import Common.Status;
 import Database.DatabaseConnection;
 
-public class Order {
-    private Order(){}
+public class OrderDB {
+    private OrderDB(){}
+    static Connection connection = DatabaseConnection.getConnection();
 
     public static void addOrder(Position startPos, Position endPos, double weight) {
-        Connection connection = DatabaseConnection.getConnection();
         String insertSql = "INSERT INTO Orders (Status, StartPosX, StartPosY, StartPosZ, EndPosX, EndPosY, EndPosZ, Weight, CustomerID, DroneID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL)";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(insertSql)) {
@@ -27,14 +27,6 @@ public class Order {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
     }
     
