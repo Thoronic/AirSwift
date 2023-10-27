@@ -14,9 +14,10 @@ CREATE TABLE Drones (
     PositionX DECIMAL(10, 6) NOT NULL,
     PositionY DECIMAL(10, 6) NOT NULL,
     PositionZ DECIMAL(10, 6) NOT NULL,
-    MaxLoad INT NOT NULL,
-    Speed INT NOT NULL,
-    Status VARCHAR(255) NOT NULL
+    Status VARCHAR(255) NOT NULL,
+    MaxLoad DECIMAL(10, 6) NOT NULL,
+    Speed DECIMAL(10, 6) NOT NULL,
+    Battery DECIMAL(10, 6) NOT NULL    
 );
 
 -- Orders Table
@@ -29,7 +30,7 @@ CREATE TABLE Orders (
     EndPosX DECIMAL(10, 6) NOT NULL,
     EndPosY DECIMAL(10, 6) NOT NULL,
     EndPosZ DECIMAL(10, 6) NOT NULL,
-    Weight INT NOT NULL,
+    Weight DECIMAL(10,6) NOT NULL,
     CustomerID INT,
     DroneID INT,
     FOREIGN KEY (CustomerID) REFERENCES Customers(ID),

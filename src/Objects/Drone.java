@@ -1,27 +1,44 @@
 package Objects;
 
-import java.util.UUID;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import Common.Position;
 import Common.Status;
+import Database.DatabaseConnection;
 
 public class Drone {
-    private UUID id;
-    private Status status = Status.AVAILABLE;
-    private double maxLoad;
-    private double speed = 10.0;
-    private double batteryStatus = 1.0;
-    private Order currentOrder = null;
-    private Position currentPosition;
-    private String accident = "";
 
-    public Drone(Position pos, double maxLoad){
-        this.id = UUID.randomUUID();
-        this.currentPosition = pos;
-        this.maxLoad = maxLoad;
+    private Drone(){}
+
+    public static void addDrone(Position pos, double maxLoad, double speed) {
+        Connection connection = DatabaseConnection.getConnection();
+        String insertSql = "INSERT INTO Customers (PositionX, PositionY, PositionZ, Status, MaxLoad, Speed, Battery, OrderID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL)";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(insertSql)) {
+            preparedStatement.setDouble(1, pos.getX());
+            preparedStatement.setDouble(2, pos.getY());
+            preparedStatement.setDouble(3, pos.getZ());
+            preparedStatement.setString(4, Status.AVAILABLE.toString());
+            preparedStatement.setDouble(5, maxLoad);
+            preparedStatement.setDouble(6, speed);
+            preparedStatement.setDouble(6, 1.0);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
-    public double getSpeed(){
+    /*public double getSpeed(){
         return this.speed;
     }
 
@@ -103,6 +120,6 @@ public class Drone {
             this.status = Status.AVAILABLE;
         }
         this.currentOrder = null;
-    }
+    }*/
 
 }

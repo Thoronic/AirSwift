@@ -1,38 +1,25 @@
 package Objects;
 
 import Common.Position;
+import Database.DatabaseConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import java.util.UUID;
-
 public class Customer{
-    private String name;
-    private UUID id;
-    private Position pos;
+    private Customer(){}
 
-    public Customer(String name, Position pos){
-        this.name = name;
-        this.id = UUID.randomUUID();
-        this.pos = pos;
-    }
-
-    public static void insertCustomerData(String name, double posX, double posY, double posZ) {
+    public static void addCustomer(String name, String handle, Position pos) {
         Connection connection = DatabaseConnection.getConnection();
-        if (connection == null) {
-            System.err.println("Failed to establish a database connection.");
-            return;
-        }
-
-        String insertSql = "INSERT INTO Customers (Name, PositionX, PositionY, PositionZ) VALUES (?, ?, ?, ?)";
+        String insertSql = "INSERT INTO Customers (Name, PositionX, PositionY, PositionZ) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(insertSql)) {
             preparedStatement.setString(1, name);
-            preparedStatement.setDouble(2, posX);
-            preparedStatement.setDouble(3, posY);
-            preparedStatement.setDouble(4, posZ);
+            preparedStatement.setString(2, handle);
+            preparedStatement.setDouble(3, pos.getX());
+            preparedStatement.setDouble(4, pos.getY());
+            preparedStatement.setDouble(5, pos.getZ());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -47,7 +34,7 @@ public class Customer{
         }
     }
 
-    public UUID getID(){
+    /*public UUID getID(){
         return this.id;
     }
 
@@ -61,6 +48,5 @@ public class Customer{
 
     public Position getPosition(){
         return this.pos;
-    }
-
+    } */
 }

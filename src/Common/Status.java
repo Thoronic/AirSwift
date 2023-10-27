@@ -4,5 +4,8 @@ public enum Status {
     AVAILABLE,
     BUSY,
     EMPTY,
-    DEACTIVATED
+    DEACTIVATED,
+    OPEN,
+    CLOSED,
+    IN_DELIVERY
 }
