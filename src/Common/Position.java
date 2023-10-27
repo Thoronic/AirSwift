@@ -12,9 +12,9 @@ public class Position {
     }
 
     public Position(){
-        this.posX = 0;
-        this.posY = 0;
-        this.posY = 0;
+        this.posX = Double.NEGATIVE_INFINITY;
+        this.posY = Double.NEGATIVE_INFINITY;
+        this.posY = Double.NEGATIVE_INFINITY;
     }
 
     public void setNewPos(double posX, double posY, double posZ){

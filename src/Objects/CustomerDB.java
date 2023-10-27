@@ -27,11 +27,41 @@ public class CustomerDB{
         }
     }
 
+    public static int getCustomerIDfromHandle(String handle){
+        String sql = "SELECT * FROM Customers WHERE handle = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.setString(1, handle);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+
+            return resultSet.getInt("ID");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    public static boolean isHandleAvailable(String handle){
+        String sql = "SELECT * FROM Customers WHERE handle = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.setString(1, handle);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            return resultSet.next();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public static Position getCustomerPos(int customerID){
         String sql = "SELECT * FROM Customers WHERE ID = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setInt(1, customerID);
             ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
 
             Position pos = new Position(resultSet.getDouble("PositionX"), resultSet.getDouble("PositionY"), resultSet.getDouble("PositionZ"));
             return pos;
