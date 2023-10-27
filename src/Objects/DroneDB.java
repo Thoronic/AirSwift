@@ -122,6 +122,28 @@ public class DroneDB {
         return Double.NEGATIVE_INFINITY;
     }
 
+    public static void updateDroneBattery(int droneID, double amount) { //pass a negative amount to substract battery power
+        double newBattery = getDroneBattery(droneID) + amount;
+        Status newStatus = getDroneStatus(droneID);
+        if (newBattery <= 0){
+            newStatus = Status.EMPTY;
+        }
+        String sql = "UPDATE Drones SET Battery = ?, Status = ? WHERE ID = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setDouble(1, newBattery);
+            preparedStatement.setString(2, newStatus.toString());
+            preparedStatement.setInt(3, droneID);
+            int rowsUpdated = preparedStatement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Status updated successfully.");
+            } else {
+                System.out.println("No rows were updated. Drone not found.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static Status getDroneStatus(int droneID){
         String sql = "SELECT * FROM Drones WHERE ID = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
@@ -207,49 +229,36 @@ public class DroneDB {
         }
     }
 
-    /*    public void changePosition(Position pos){
-        this.currentPosition = pos;
+    public static void registerAccident(int droneID, String accident){
+        String insertSql = "INSERT INTO Accidents (Accident, PositionX, PositionY, PositionZ, DroneID) VALUES (?, ?, ?, ?, ?)";
+        Position pos = getDronePos(droneID);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(insertSql)) {
+            preparedStatement.setString(1, accident);
+            preparedStatement.setDouble(2, pos.getX());
+            preparedStatement.setDouble(3, pos.getY());
+            preparedStatement.setDouble(4, pos.getZ());
+            preparedStatement.setInt(5, droneID);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        deactivateDrone(droneID);
+        OrderDB.abortOrder(getOrderFromDrone(droneID));
     }
 
-    public boolean useBattery(double usage){
-        if (usage >= this.batteryStatus) {
-            this.status = Status.EMPTY;
-            return false; //Not successful
-        } else {
-            this.batteryStatus -= usage;
-            return true;
+    public static void deactivateDrone(int droneID){
+        String sql = "UPDATE Drones SET Status = ? WHERE ID = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, Status.DEACTIVATED.toString());
+            preparedStatement.setInt(2, droneID);
+            int rowsUpdated = preparedStatement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Status updated successfully.");
+            } else {
+                System.out.println("No rows were updated. Drone not found.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
-
-    public void chargeBattery(){
-        this.batteryStatus = 1.0;
-    }
-
-
-    public void deactivateDrone(){
-        this.deactivateDrone("");
-    }
-
-    public void deactivateDrone(String reason){
-        if (this.status == Status.BUSY){
-            System.out.println("Trying to cancel an active drone");
-        }
-        this.status = Status.DEACTIVATED;
-        this.accident = reason;
-        this.currentOrder = null;
-        this.currentPosition = null;
-    }
-
-    public void orderCompleted(){
-        if (this.status == Status.DEACTIVATED) {
-            return;
-        }
-        if (this.batteryStatus <= 0){
-            this.status = Status.EMPTY;
-        } else {
-            this.status = Status.AVAILABLE;
-        }
-        this.currentOrder = null;
-    }*/
-
 }

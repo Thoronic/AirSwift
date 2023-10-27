@@ -106,28 +106,21 @@ public class OrderDB {
         }
         DroneDB.setOrderCompleted(getDroneFromOrder(orderID));
     }
-    
-    /*public Position getStartPos(){
-        return this.startPos;
+
+    public static void abortOrder(int orderID) {
+        String sql = "UPDATE Orders SET Status = ? WHERE ID = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, Status.ABORTED.toString());
+            int rowsUpdated = preparedStatement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Status updated successfully.");
+            } else {
+                System.out.println("No rows were updated. Drone not found.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    public Position getEndPos(){
-        return this.endPos;
-    }
-
-    public UUID getID(){
-        return this.id;
-    }
-
-    public double getWeight(){
-        return this.weight;
-    }
-
-    public void assignDrone(Drone drone){
-        this.assignedDrone = drone;
-    }
-
-    public void completeOrder(){
-        this.assignedDrone = null;
-    }*/
+    //TODO get weight
 }

@@ -28,7 +28,7 @@ public class CustomerDB{
     }
 
     public static int getCustomerIDfromHandle(String handle){
-        String sql = "SELECT * FROM Customers WHERE handle = ?";
+        String sql = "SELECT * FROM Customers WHERE Handle = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setString(1, handle);
             ResultSet resultSet = preparedStatement.executeQuery();
