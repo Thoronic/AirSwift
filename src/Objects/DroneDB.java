@@ -57,11 +57,12 @@ public class DroneDB {
         return -1;
     }
 
-    public void assignDrone(int droneID) {
-        String sql = "UPDATE Drones SET Status = ? WHERE ID = ?";
+    public void assignDronetoOrder(int droneID, int orderID) {
+        String sql = "UPDATE Drones SET Status = ?, OrderID = ? WHERE ID = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, newStatus);
-            preparedStatement.setInt(2, droneID);
+            preparedStatement.setString(1, Status.BUSY.toString());
+            preparedStatement.setInt(2, orderID);
+            preparedStatement.setInt(3, droneID);
             int rowsUpdated = preparedStatement.executeUpdate();
             if (rowsUpdated > 0) {
                 System.out.println("Status updated successfully.");
@@ -71,6 +72,7 @@ public class DroneDB {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        OrderDB.assignOrdertoDrone(orderID, droneID);
     }
 
     /*public double getSpeed(){

@@ -5,6 +5,7 @@ import Database.DatabaseConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CustomerDB{
@@ -26,19 +27,18 @@ public class CustomerDB{
         }
     }
 
-    /*public UUID getID(){
-        return this.id;
-    }
+    public static Position getCustomerPos(int customerID){
+        String sql = "SELECT * FROM Customers WHERE ID = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.setInt(1, customerID);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-    public void changePosition(Position pos){
-        this.pos = pos;
-    }
+            Position pos = new Position(resultSet.getDouble("PositionX"), resultSet.getDouble("PositionY"), resultSet.getDouble("PositionZ"));
+            return pos;
 
-    public void changePosition(double deltaX, double deltaY, double deltaZ){
-        this.pos.movePosition(deltaX, deltaY, deltaZ);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return new Position();
     }
-
-    public Position getPosition(){
-        return this.pos;
-    } */
 }

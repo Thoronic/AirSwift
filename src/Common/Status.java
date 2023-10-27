@@ -7,5 +7,6 @@ public enum Status {
     DEACTIVATED,
     OPEN,
     CLOSED,
-    IN_DELIVERY
+    IN_DELIVERY,
+    ABORTED
 }
