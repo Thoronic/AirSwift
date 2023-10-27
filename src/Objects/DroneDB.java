@@ -57,6 +57,22 @@ public class DroneDB {
         return -1;
     }
 
+    public void assignDrone(int droneID) {
+        String sql = "UPDATE Drones SET Status = ? WHERE ID = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, newStatus);
+            preparedStatement.setInt(2, droneID);
+            int rowsUpdated = preparedStatement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Status updated successfully.");
+            } else {
+                System.out.println("No rows were updated. Drone not found.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     /*public double getSpeed(){
         return this.speed;
     }
