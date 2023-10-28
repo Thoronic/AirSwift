@@ -6,21 +6,21 @@ This system provides the back end for the drone control system "AirSwift".
 
 To set up the database for the first time, make sure mysql/mariaDB is installed on your system.
 Continue to start mysql:
-`$ sudo systemctl start mysql
-$ sudo systemctl enable mysql
-$ sudi mysql -u root`
+`$ sudo systemctl start mysql`
+`$ sudo systemctl enable mysql`
+`$ sudi mysql -u root`
 
 Now you should be in the shell of mysql/mariaDB. Create the database and load the preconfigured tables and data:
-`$ CREATE DATABASE DroneCompany
-$ USE DroneCompany
-$ source full/path/to/Database/schema.sql
-$ source full/path/to/Database/data.sql`
+`$ CREATE DATABASE DroneCompany`
+`$ USE DroneCompany`
+`$ source full/path/to/Database/schema.sql`
+`$ source full/path/to/Database/data.sql`
 
 ## Compile Java
 
 To compile the back end we use maven:
-`$ mvn compile
-$ mvn exec:java`
+`$ mvn compile`
+`$ mvn exec:java`
 
 ## Functions provided to the front end
 
