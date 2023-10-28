@@ -14,4 +14,11 @@ public class ApiController {
         // Process the received data and return a response
         return "Received data: " + requestData;
     }
+
+    private final DataService dataService;
+
+    @Autowired
+    public ApiController(DataService dataService) {
+        this.dataService = dataService;
+    }
 }
