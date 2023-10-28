@@ -16,6 +16,7 @@ Continue to start mysql:
 Now you should be in the shell of mysql/mariaDB. Create the database and load the preconfigured tables and data:
 
 `$ CREATE DATABASE DroneCompany`
+
 `$ USE DroneCompany`
 
 `$ source full/path/to/Database/schema.sql`
