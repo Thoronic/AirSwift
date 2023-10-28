@@ -27,9 +27,9 @@ Now you should be in the shell of mysql/mariaDB. Create the database and load th
 
 To compile the back end we use maven:
 
-`$ mvn compile`
+`$ mvn clean install`
 
-`$ mvn exec:java`
+`$ mvn spring-boot:run`
 
 ## Functions provided to the front end
 

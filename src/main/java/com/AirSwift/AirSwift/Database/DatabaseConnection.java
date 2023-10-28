@@ -1,4 +1,4 @@
-package Database;
+package main.java.com.AirSwift.AirSwift.Database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

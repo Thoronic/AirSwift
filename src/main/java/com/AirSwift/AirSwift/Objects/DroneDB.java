@@ -1,13 +1,13 @@
-package Objects;
+package main.java.com.AirSwift.AirSwift.Objects;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import Common.Position;
-import Common.Status;
-import Database.DatabaseConnection;
+import main.java.com.AirSwift.AirSwift.Common.Position;
+import main.java.com.AirSwift.AirSwift.Common.Status;
+import main.java.com.AirSwift.AirSwift.Database.DatabaseConnection;
 
 public class DroneDB {
     static Connection connection = DatabaseConnection.getConnection();
