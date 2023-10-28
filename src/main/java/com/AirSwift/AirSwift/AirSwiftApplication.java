@@ -1,4 +1,4 @@
-package main.java.com.AirSwift.AirSwift;
+package com.AirSwift.AirSwift;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

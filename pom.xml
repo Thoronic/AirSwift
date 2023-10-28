@@ -9,7 +9,7 @@
 		<relativePath/>
 		<!-- lookup parent from repository -->
 	</parent>
-	<groupId>main.java.com.AirSwift</groupId>
+	<groupId>com.AirSwift</groupId>
 	<artifactId>AirSwift</artifactId>
 	<version>1.0</version>
 	<name>AirSwift</name>

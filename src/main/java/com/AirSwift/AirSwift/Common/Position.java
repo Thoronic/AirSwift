@@ -1,4 +1,4 @@
-package main.java.com.AirSwift.AirSwift.Common;
+package com.AirSwift.AirSwift.Common;
 
 public class Position {
     private double posX;

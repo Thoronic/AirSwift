@@ -1,12 +1,12 @@
-package main.java.com.AirSwift.AirSwift.Objects;
+package com.AirSwift.AirSwift.Objects;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import main.java.com.AirSwift.AirSwift.Common.Position;
-import main.java.com.AirSwift.AirSwift.Database.DatabaseConnection;
+import com.AirSwift.AirSwift.Common.Position;
+import com.AirSwift.AirSwift.Database.DatabaseConnection;
 
 public class CustomerDB{
     private CustomerDB(){}

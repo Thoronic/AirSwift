@@ -1,4 +1,4 @@
-package main.java.com.AirSwift.AirSwift.BusinessLogic;
+package com.AirSwift.AirSwift.BusinessLogic;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

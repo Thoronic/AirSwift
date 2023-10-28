@@ -1,9 +1,9 @@
-package main.java.com.AirSwift.AirSwift.Logic;
+package com.AirSwift.AirSwift.Logic;
 
-import main.java.com.AirSwift.AirSwift.Common.Position;
-import main.java.com.AirSwift.AirSwift.Objects.CustomerDB;
-import main.java.com.AirSwift.AirSwift.Objects.DroneDB;
-import main.java.com.AirSwift.AirSwift.Objects.OrderDB;
+import com.AirSwift.AirSwift.Common.Position;
+import com.AirSwift.AirSwift.Objects.CustomerDB;
+import com.AirSwift.AirSwift.Objects.DroneDB;
+import com.AirSwift.AirSwift.Objects.OrderDB;
 
 public class Logic {
     public static Position posHeadquarter = new Position();
